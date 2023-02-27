@@ -1,15 +1,25 @@
-import Button from "./Button";
+import React, { useState } from 'react';
+import Button from './components/Button';
+import Accordion from './components/Accordion';
+import Dropdown from './components/Dropdown';
 function App() {
-  return (
-    <div className="App">
-     <Button>click</Button>
-     <Button>hr</Button>
-     <Button>gvv</Button>
-     <Button>we</Button>
-     <Button>um</Button>
-     
-    </div>
-  );
+
+  const [selection,setSelection] = useState(null)
+
+  const handleSelect= (option) =>{
+    setSelection(option)
+  }
+  const options=[
+    { label: 'Red',value:'red'},
+    { label: 'Green',value:'green'},
+    { label: 'Blue',value:'blue'},
+  ]
+
+  return( 
+  <div className='flex'>
+  <Dropdown options={options} value={selection} onChange={handleSelect} />
+  </div>
+  )
 }
 
 export default App;
