@@ -1,19 +1,25 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-function Table({data,config}) {
+function Table({data,config,keyFn}) {
 
     const renderedHeader = config.map((column)=>{
+
+        if(column.header){
+            return <Fragment key={column.label}>{column.header()}</Fragment> 
+        }
+
         return <th key={column.label}>{column.label}</th>
     })
 
-    const renderdRows = data.map((fruit)=>{
+    const renderdRows = data.map((rowData)=>{
+
+        const renderedCells = config.map((column)=>{
+            return <td className='p-2' key={column.label}>{column.render(rowData)}</td>
+        })
+
         return (
-            <tr key={fruit.name} className='border-b'>
-                <td className='p-3'>{fruit.name}</td>
-                <td className='p-3'>
-                    <div className={`p-3 m-2 ${fruit.color}`}></div>
-                </td>
-                <td className='p-3'>{fruit.score}</td>
+            <tr key={keyFn(rowData)} className='border-b'>
+                {renderedCells}
                 
             </tr>
         )
