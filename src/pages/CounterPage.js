@@ -1,17 +1,52 @@
 
+import { useState } from 'react';
 import Button from '../components/Button';
-import useCounter from '../hooks/use-counter';
+import Panel from '../components/Panel';
+
 
 function CounterPage({initialCount}) {
-   const {count,increment} = useCounter(initialCount)
-  return (
-    <div>
-      <h1>Count is {count}</h1>
+ 
+  const [count,setCount] = useState(initialCount)
 
-      <Button onClick={increment}>
-        Increment
-      </Button>
-    </div>
+  const [valueToAdd,setValueToAdd] = useState(0)
+
+  const increment =()=>{
+    setCount(count+1)
+  }
+
+  const decrement =()=>{
+    setCount(count-1)
+  }
+
+  const handleChange =(event) =>{
+    const value = parseInt(event.target.value) || 0
+    setValueToAdd(value)
+  }
+
+  const handleSubmit=(event)=>{
+    event.preventDefault()
+    setCount(count + valueToAdd) 
+    setValueToAdd(0)
+  }
+
+  return (
+    <Panel className='m-3'>
+      <h1 className='text-lg'>Count is {count}</h1>
+
+      <div className='flex flex-row'>
+      <Button onClick={increment}> Increment</Button>
+      <Button onClick={decrement}>Decrement</Button>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <label>Add a Lot</label>
+        <input 
+          value={valueToAdd || ""}
+          onChange={handleChange} 
+          type="number" className='p-1 m-3 bg-gray-50 border border-gray' />
+        <Button >Add It</Button>
+      </form>
+    </Panel>
   )
 }
 
